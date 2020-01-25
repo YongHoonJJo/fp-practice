@@ -70,11 +70,11 @@ describe('map 함수는', () => {
   });
 
   it('L.map을 이용하여 구현한다 (takeAll함수 이후에 작성하세요)', () => {
-    /*
-     * L.map을 이용하여 map을 구현하였으면
-     * 아래의 expect함수에 true를 전달하여 테스트 케이스를 통과하세요!
-     */
-    expect(false).to.eql(true);
+    
+    // L.map을 이용하여 map을 구현하였으면
+    // 아래의 expect함수에 true를 전달하여 테스트 케이스를 통과하세요!
+     
+    expect(true).to.eql(true);
   });
 });
 
@@ -85,11 +85,11 @@ describe('filter 함수는', () => {
   });
 
   it('L.filter를 이용하여 구현한다 (takeAll함수 이후에 작성하세요)', () => {
-    /*
-     * L.filter를 이용하여 filter를 구현하였으면
-     * 아래의 expect함수에 true를 전달하여 테스트 케이스를 통과하세요!
-     */
-    expect(false).to.eql(true);
+    
+    // L.filter를 이용하여 filter를 구현하였으면
+    // 아래의 expect함수에 true를 전달하여 테스트 케이스를 통과하세요!
+    
+    expect(true).to.eql(true);
   });
 });
 
@@ -138,6 +138,7 @@ describe('pipe 함수는', () => {
       filter(isOddNumber),
       reduce(add)
     );
+    
     expect(func(iter)).to.eql(35);
   });
 
@@ -207,6 +208,7 @@ describe('partial 함수는', () => {
   });
 });
 
+/*** iter3  ***/
 const iter3 = [1, 2, 3, 4, 3, 2, 1];
 
 describe('takeWhile 함수는', () => {

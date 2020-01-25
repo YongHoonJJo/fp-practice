@@ -16,9 +16,9 @@
     "mocha": "^6.0.2"
   },
   "scripts": {
-    "test:1": "npx mocha --require babel-core/register stage1/index.spec.js",
-    "test:2": "npx mocha --require babel-core/register stage2/index.spec.js",
-    "test:3": "npx mocha --require babel-core/register stage3/index.spec.js"
+    "test:1": "npx mocha -w --require babel-core/register stage1/index.spec.js",
+    "test:2": "npx mocha -w --require babel-core/register stage2/index.spec.js",
+    "test:3": "npx mocha -w --require babel-core/register stage3/index.spec.js"
   },
   "babel": {
     "presets": [

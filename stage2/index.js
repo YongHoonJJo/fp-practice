@@ -12,11 +12,9 @@ const reduce = curry(function (f, acc, iter) {
   return acc;
 }, 1);
 
-const map = curry((f, iter) =>
-  reduce((acc, item) => (acc.push(f(item)), acc), [], iter));
+// const map = curry((f, iter) => reduce((acc, item) => (acc.push(f(item)), acc), [], iter));
 
-const filter = curry((f, iter) =>
-  reduce((acc, item) => (f(item) && acc.push(item), acc), [], iter));
+// const filter = curry((f, iter) => reduce((acc, item) => (f(item) && acc.push(item), acc), [], iter));
 
 const _baseBy = f => curry((keyF, iter) =>
   reduce((acc, item) => f(acc, item, keyF(item)), {}, iter));
@@ -68,35 +66,85 @@ const partial = function(f, ...args1) {
   }
 };
 
-const takeWhile = function () {};
+const takeWhile = curry(function (f, iter) {
+  const list = []
+  for(const a of iter) {
+    if(!f(a)) break
+    list.push(a)
+  }
+  return list
+}, 1);
 
-const take = function() {};
+const take = curry(function(l, iter) {
+  const list = []
+  for(const a of iter) {
+    if(l-- <= 0) break;
+    list.push(a)
+  }
+  return list
+}, 1);
 
-const takeAll = function() {};
+const takeAll = take(Infinity) 
 
 const L = {};
 
-L.map = function *() {};
+L.map = curry(function *(f, iter) {
+  for(const a of iter)
+    yield f(a)
+}, 1);
+const map = curry(pipe(L.map, takeAll), 1)
 
-L.filter = function *() {};
+L.filter = curry(function *(f, iter) {
+  for(const a of iter)
+    if(f(a)) yield a
+}, 1);
+const filter = curry(pipe(L.filter, takeAll), 1)
 
-L.range = function *() {};
+L.range = function *(l) {
+  for(let i=0; i<l; i++)
+    yield i
+};
 
-const range = function() {};
+const range = function(l) {
+  return [...L.range(l)]
+};
 
-const find = function() {};
+const find = curry(pipe(
+  L.filter,
+  take(1),
+  ([a]) => a
+), 1);
 
-L.flat = function *() {};
+const isIterable = a => a && a[Symbol.iterator]
+const isString = a => typeof a === 'string'
 
-const flat = function() {};
+L.flat = function *(iter) {
+  for(const a of iter) {
+    !isString(a) && isIterable(a) ? yield *a : yield a;
+  }
+};
 
-L.deepFlat = function *() {};
+const flat = iter => [...L.flat(iter)]
 
-const deepFlat = function() {};
+L.deepFlat = function *f(iter) {
+  for(const a of iter)
+    !isString(a) && isIterable(a) ? yield *f(a) : yield a;
+};
 
-L.flatMap = function *() {};
+const deepFlat = iter => [...L.deepFlat(iter)]
 
-const flatMap = function() {};
+L.flatMap = curry(pipe(
+  L.map,
+  L.flat
+), 1)
+
+// const flatMap = curry(pipe(
+//   L.map,
+//   L.flat,
+//   takeAll
+// ), 1)
+const flatMap = curry((f, iter) => [...L.flatMap(f, iter)], 1)
+
 
 export {
   reduce,
